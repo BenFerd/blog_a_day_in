@@ -1,17 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ingrédient
+{% block title %}Unité
 {% endblock %}
 
 {% block body %}
-	<h2>Créer un ingrédient</h2>
+	<h2>Créer une unité de mesure</h2>
 
 	{{ form_start(formview) }}
 	{{ form_errors(formview) }}
 	{{ form_widget(formview) }}
 	<button type="submit" class="btn btn-primary">
 		<i class="fas fa-save"></i>
-		Créer l'ingrédient
+		Créer l'unité
 	</button>
 
 	{{ form_end(formview) }}

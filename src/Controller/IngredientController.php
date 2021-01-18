@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Ingredients;
+use App\Form\IngredientType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,7 +29,7 @@ class IngredientController extends AbstractController
 
         $ingredient = new Ingredients;
 
-        $form = $this->createForm(ingredientFormType::class, $ingredient);
+        $form = $this->createForm(IngredientType::class, $ingredient);
 
         $form->handleRequest($request);
 

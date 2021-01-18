@@ -2,10 +2,13 @@
 
 namespace App\Form;
 
+use App\Entity\Unity;
 use App\Entity\Ingredients;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class IngredientType extends AbstractType
 {
@@ -13,11 +16,17 @@ class IngredientType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom de la catégorie : ',
-                'attr' => ['placeholder' => 'Tapez le nom de la catégorie']
+                'label' => 'Nom de l\'ingrédient : ',
+                'attr' => ['placeholder' => 'Safran']
             ])
-            ->add('unity')
-            ->add('recipes')
+            ->add('unity', EntityType::class, [
+                'label' => 'Unité',
+                'placeholder' => '-- Choisir une unité --',
+                'class' => Unity::class,
+                'choice_label' => function (Unity $unity) {
+                    return $unity->getShortName();
+                }
+            ])
         ;
     }
 

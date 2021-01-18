@@ -29,6 +29,11 @@ class Unity
      */
     private $ingredients;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $shortName;
+
     public function __construct()
     {
         $this->ingredients = new ArrayCollection();
@@ -77,6 +82,18 @@ class Unity
                 $ingredient->setUnity(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getShortName(): ?string
+    {
+        return $this->shortName;
+    }
+
+    public function setShortName(string $shortName): self
+    {
+        $this->shortName = $shortName;
 
         return $this;
     }

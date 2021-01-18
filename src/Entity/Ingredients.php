@@ -30,11 +30,6 @@ class Ingredients
     private $unity;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Recipes::class, mappedBy="ingredients")
-     */
-    private $recipes;
-
-    /**
      * @ORM\OneToMany(targetEntity=RecipeIngredients::class, mappedBy="ingredient")
      */
     private $recipeIngredients;

@@ -7,6 +7,7 @@ use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -18,11 +19,11 @@ class RecipeType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom de la recette : ',
-                'attr' => ['placeholder' => 'Tapez le nom de la catégorie']
+                'attr' => ['placeholder' => 'Bière au beurre']
             ])
-            ->add('quantities', TextType::class, [
+            ->add('quantities', IntegerType::class, [
                 'label' => 'Nombre de personnes : ',
-                'attr' => ['placeholder' => 'Tapez le nom de la catégorie']
+                'attr' => ['placeholder' => '4']
             ])
             ->add('time', TextType::class, [
                 'label' => 'Temps de préparation : ',
@@ -37,7 +38,7 @@ class RecipeType extends AbstractType
                 'placeholder' => '-- Choisir une catégorie --',
                 'class' => Category::class,
                 'choice_label' => function (Category $category) {
-                    return strtoupper($category->getName());
+                    return $category->getName();
                 }
             ]);
     }

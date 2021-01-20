@@ -15,15 +15,27 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class RecipesController extends AbstractController
 {
     /**
-     * @Route("/recipes", name="recipes")
+     * @Route("/admin/recipes/show", name="recipe_showAll")
      */
-    public function show()
+    public function showAll(RecipesRepository $recipesRepository)
     {
+        $recipes = $recipesRepository->findAll();
 
+        return $this->render('recipes/show_all.html.twig', [
+            'recipes' => $recipes
+        ]);
+    }
 
+    /**
+     * @Route("/admin/recipes/show/{id}", name="recipe_show")
+     */
+    public function show($id, RecipesRepository $recipesRepository)
+    {
+        $recipe = $recipesRepository->find($id);
 
-
-        return $this->render('recipes/show.html.twig');
+        return $this->render('recipes/show.html.twig', [
+            'recipe' => $recipe
+        ]);
     }
 
     /**

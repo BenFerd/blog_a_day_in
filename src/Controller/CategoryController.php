@@ -15,6 +15,30 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoryController extends AbstractController
 {
     /**
+     * @Route("/admin/category/showAll", name="category_showAll")
+     */
+    public function showAll(CategoryRepository $categoryRepository)
+    {
+        $categories = $categoryRepository->findAll();
+
+        return $this->render('category/show_all.html.twig', [
+            'categories' => $categories,
+        ]);
+    }
+
+    /**
+     * @Route("/admin/category/show/{id}", name="category_showOne")
+     */
+    public function showOne($id, CategoryRepository $categoryRepository)
+    {
+        $category = $categoryRepository->find($id);
+
+        return $this->render('category/show.html.twig', [
+            'category' => $category
+        ]);
+    }
+
+    /**
      * @Route("/admin/category/create", name="category_create")
      */
     public function create(Request $request, EntityManagerInterface $em)

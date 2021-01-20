@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	{{ ingredient.name }}
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card">
+				<h4>
+					<div class="card-title">
+						{{ ingredient.name }}</div>
+				</h4>
+				<div class="card-text">
+					<span class="small">
+						{{ ingredient.unity.name }}
+					</span>
+				</div>
+				<a href=" {{ path('ingredient_showAll') }} " class="btn btn-danger btn-sm">Retour</a>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

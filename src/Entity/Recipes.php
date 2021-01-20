@@ -30,7 +30,7 @@ class Recipes
     private $quantities;
 
     /**
-     * @ORM\Column(type="time", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $time;
 

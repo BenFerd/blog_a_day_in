@@ -1,0 +1,30 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Unités
+{% endblock %}
+
+{% block body %}
+
+	<div class="row">
+		{% for u in unities %}
+			<div class="col-sm-3">
+				<div class="card">
+					<div class="card-body">
+						<h4>
+							<div class="card-title">
+								{{ u.name }}</div>
+						</h4>
+						<div class="card-text">
+							<span class="small">
+								{{ u.shortName }}
+							</span>
+						</div>
+						<a href=" {{ path('unity_edit', {'id': u.id }) }} " class="btn btn-primary btn-sm">Modifier</a>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Ingrédients
+{% endblock %}
+
+{% block body %}
+
+	<div class="row">
+		{% for i in ingredients %}
+			<div class="col-sm-3">
+				<div class="card">
+					<div class="card-body">
+						<h4>
+							<div class="card-title">
+								{{ i.name }}</div>
+						</h4>
+						<div class="card-text">
+							<span class="small">
+								{{ i.unity.name }}
+							</span>
+						</div>
+						<a href=" {{ path('ingredient_edit', {'id': i.id }) }} " class="btn btn-primary btn-sm">Modifier</a>
+						<a href=" {{ path('ingredient_showOne', {'id': i.id }) }} " class="btn btn-info btn-sm">Détails</a>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+
+{% endblock %}

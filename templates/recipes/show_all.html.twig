@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Recettes
+{% endblock %}
+
+{% block body %}
+
+	<div class="row">
+		{% for r in recipes %}
+			<div class="col-sm-3">
+				<div class="card">
+					<div class="card-body">
+						<h4>
+							<div class="card-title">
+								{{ r.name }}</div>
+						</h4>
+						<div class="card-text">
+							
+						</div>
+						<a href=" {{ path('recipe_edit', {'id': r.id }) }} " class="btn btn-primary btn-sm">Modifier</a>
+						<a href=" {{ path('recipe_showOne', {'id': r.id }) }} " class="btn btn-info btn-sm">Détails</a>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+
+{% endblock %}

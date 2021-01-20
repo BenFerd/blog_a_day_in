@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Ingredients;
 use App\Form\IngredientType;
+use App\Repository\IngredientsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,12 +14,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class IngredientController extends AbstractController
 {
     /**
-     * @Route("/ingredient", name="ingredient")
+     * @Route("/admin/ingredient/showAll", name="ingredient_showAll")
      */
-    public function index(): Response
+    public function showAll(IngredientsRepository $ingredientsRepository)
     {
-        return $this->render('ingredient/index.html.twig', [
-            'controller_name' => 'IngredientController',
+        $ingredients = $ingredientsRepository->findAll();
+
+
+        return $this->render('ingredient/show_all.html.twig', [
+            'ingredients' => $ingredients,
+        ]);
+    }
+
+    /**
+     * @Route("/admin/ingredient/show/{id}", name="ingredient_showOne")
+     */
+    public function showOne($id, IngredientsRepository $ingredientsRepository)
+    {
+        $ingredient = $ingredientsRepository->find($id);
+
+        return $this->render('ingredient/show.html.twig', [
+            'ingredient' => $ingredient,
         ]);
     }
     /**
@@ -40,6 +56,33 @@ class IngredientController extends AbstractController
 
 
             return $this->redirectToRoute('homepage');
+        }
+
+        $formview = $form->createView();
+
+        return $this->render('ingredient/create.html.twig', [
+            'formview' => $formview,
+        ]);
+    }
+
+    /**
+     * @Route("/admin/ingredient/{id}/edit", name="ingredient_edit")
+     */
+    public function edit($id, IngredientsRepository $ingredientsRepository, Request $request, EntityManagerInterface $em)
+    {
+
+        $ingredient = $ingredientsRepository->find($id);
+
+        $form = $this->createForm(IngredientType::class, $ingredient);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+
+            return $this->redirectToRoute('ingredient_showOne', [
+                'ingredient' => $ingredient
+            ]);
         }
 
         $formview = $form->createView();

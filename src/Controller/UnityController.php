@@ -41,9 +41,12 @@ class UnityController extends AbstractController
             $em->persist($unity);
             $em->flush();
 
+            $this->addFlash(
+                'success',
+                'L\'unité ' . $unity->getName() . ' a bien été ajouté !'
+            );
 
-
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('unity_show');
         }
 
         $formview = $form->createView();
@@ -54,7 +57,7 @@ class UnityController extends AbstractController
     }
 
     /**
-     * @Route("admin/unity/{id}/edit", name="unity_edit")
+     * @Route("admin/unity/{id}/edit", name="unity_edit", requirements={"id": "\d+"})
      */
     public function edit($id, UnityRepository $unityRepository, Request $request, EntityManagerInterface $em)
     {
@@ -78,5 +81,22 @@ class UnityController extends AbstractController
             'formview' => $formView,
             'unity' => $unity,
         ]);
+    }
+    /**
+     * @Route("/admin/unity/delete/{id}", name="unity_delete", requirements={"id": "\d+"})
+     */
+    public function delete($id, UnityRepository $unityRepository, EntityManagerInterface $em)
+    {
+        $unity = $unityRepository->find($id);
+
+        $em->remove($unity);
+        $em->flush();
+
+        $this->addFlash(
+            'success',
+            'L\'unité ' . $unity->getName() . ' a bien été supprimée !'
+        );
+
+        return $this->redirectToRoute('unity_show');
     }
 }

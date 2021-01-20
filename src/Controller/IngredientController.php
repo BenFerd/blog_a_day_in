@@ -27,7 +27,7 @@ class IngredientController extends AbstractController
     }
 
     /**
-     * @Route("/admin/ingredient/show/{id}", name="ingredient_showOne")
+     * @Route("/admin/ingredient/show/{id}", name="ingredient_showOne", requirements={"id": "\d+"})
      */
     public function showOne($id, IngredientsRepository $ingredientsRepository)
     {
@@ -53,9 +53,12 @@ class IngredientController extends AbstractController
             $em->persist($ingredient);
             $em->flush();
 
+            $this->addFlash(
+                'success',
+                'L\'ingrédient ' . $ingredient->getName() . ' a bien été ajouté !'
+            );
 
-
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('ingredient_showAll');
         }
 
         $formview = $form->createView();
@@ -66,7 +69,7 @@ class IngredientController extends AbstractController
     }
 
     /**
-     * @Route("/admin/ingredient/{id}/edit", name="ingredient_edit")
+     * @Route("/admin/ingredient/{id}/edit", name="ingredient_edit", requirements={"id": "\d+"})
      */
     public function edit($id, IngredientsRepository $ingredientsRepository, Request $request, EntityManagerInterface $em)
     {
@@ -81,14 +84,32 @@ class IngredientController extends AbstractController
             $em->flush();
 
             return $this->redirectToRoute('ingredient_showOne', [
-                'ingredient' => $ingredient
+                'id' => $id
             ]);
         }
 
         $formview = $form->createView();
 
-        return $this->render('ingredient/create.html.twig', [
+        return $this->render('ingredient/edit.html.twig', [
             'formview' => $formview,
         ]);
+    }
+
+    /**
+     * @Route("/admin/ingredient/delete/{id}", name="ingredient_delete", requirements={"id": "\d+"})
+     */
+    public function delete($id, IngredientsRepository $ingredientsRepository, EntityManagerInterface $em)
+    {
+        $ingredient = $ingredientsRepository->find($id);
+
+        $em->remove($ingredient);
+        $em->flush();
+
+        $this->addFlash(
+            'success',
+            'L\'ingrédient ' . $ingredient->getName() . ' a bien été supprimé !'
+        );
+
+        return $this->redirectToRoute('ingredient_showAll');
     }
 }

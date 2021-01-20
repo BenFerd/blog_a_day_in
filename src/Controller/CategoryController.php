@@ -27,7 +27,7 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/admin/category/show/{id}", name="category_showOne")
+     * @Route("/admin/category/show/{id}", name="category_showOne", requirements={"id": "\d+"})
      */
     public function showOne($id, CategoryRepository $categoryRepository)
     {
@@ -55,8 +55,12 @@ class CategoryController extends AbstractController
             $em->flush();
 
 
+            $this->addFlash(
+                'success',
+                'La catégorie ' . $category->getName() . ' a bien été ajouté !'
+            );
 
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('category_showAll');
         }
 
         $formview = $form->createView();
@@ -67,7 +71,7 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/admin/category/edit/{id}", name="category_edit")
+     * @Route("/admin/category/edit/{id}", name="category_edit", requirements={"id": "\d+"})
      */
     public function edit($id, CategoryRepository $categoryRepository, Request $request, EntityManagerInterface $em)
     {
@@ -86,7 +90,7 @@ class CategoryController extends AbstractController
 
             $em->flush();
 
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('category_showAll');
         }
 
         $formview = $form->createView();
@@ -95,5 +99,23 @@ class CategoryController extends AbstractController
             'formview' => $formview,
             'category' => $category,
         ]);
+    }
+
+    /**
+     * @Route("/admin/category/delete/{id}", name="category_delete", requirements={"id": "\d+"})
+     */
+    public function delete($id, CategoryRepository $categoryRepository, EntityManagerInterface $em)
+    {
+        $category = $categoryRepository->find($id);
+
+        $em->remove($category);
+        $em->flush();
+
+        $this->addFlash(
+            'success',
+            'La catégorie ' . $category->getName() . ' a bien été supprimée !'
+        );
+
+        return $this->redirectToRoute('category_showAll');
     }
 }

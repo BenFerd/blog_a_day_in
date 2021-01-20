@@ -13,7 +13,11 @@
 	</head>
 	<body>
 		{% include "shared/_navbar.html.twig" %}
-
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success">
+				{{ message }}
+			</div>
+		{% endfor %}
 		<div class="container pt-5"> {% block body %}{% endblock %}
 			</div>
 			{% block javascripts %}
